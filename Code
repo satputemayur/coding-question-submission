@@ -1,0 +1,31 @@
+import java.util.Stack;
+
+public class LongestValidParentheses {
+    public static int findLongestValid(String s) {
+        Stack<Integer> indices = new Stack<>();
+        indices.push(-1);
+        int result = 0;
+
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '(') {
+                indices.push(i);
+            } else {
+                indices.pop();
+                if (indices.isEmpty()) {
+                    indices.push(i);
+                } else {
+                    int currentLen = i - indices.peek();
+                    result = Math.max(result, currentLen);
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(findLongestValid("(()"));
+        System.out.println(findLongestValid(")()())"));
+        System.out.println(findLongestValid(""));
+    }
+}
